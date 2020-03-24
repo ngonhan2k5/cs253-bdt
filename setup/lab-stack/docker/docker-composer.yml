@@ -1,0 +1,13 @@
+version: "2.0"
+services:
+    cloudera:
+        image: cloudera/quickstart
+        ports:
+            - 7180:7180
+            - 80:80
+            - 7187:7187
+            - 8888:8888
+        command: /usr/bin/docker-quickstart
+        privileged: true
+        stdin_open: true
+        tty: true
