@@ -91,7 +91,6 @@ public class WordCount extends Configured implements Tool
 		FileInputFormat.addInputPath(job, new Path(args[0]));
 		FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
-		job.setNumReduceTasks(2);
 
 		return job.waitForCompletion(true) ? 0 : 1;
 	}
