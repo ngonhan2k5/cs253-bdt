@@ -17,7 +17,7 @@ import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
-public class WordCount extends Configured implements Tool
+public class WordCountD extends Configured implements Tool
 {
 
 	public static class WordCountMapper extends Mapper<LongWritable, Text, Text, IntWritable>
@@ -49,8 +49,10 @@ public class WordCount extends Configured implements Tool
 			{
 				sum += val.get();
 			}
-			result.set(sum);
-			context.write(key, result);
+			if(sum >= 25) {
+				result.set(sum);
+				context.write(key, result);
+			}
 		}
 	}
 
@@ -59,7 +61,7 @@ public class WordCount extends Configured implements Tool
 		Configuration conf = new Configuration();
 		delOutDir(conf, args[1]);
 
-		int res = ToolRunner.run(conf, new WordCount(), args);
+		int res = ToolRunner.run(conf, new WordCountD(), args);
 
 		System.exit(res);
 	}
@@ -76,8 +78,8 @@ public class WordCount extends Configured implements Tool
 	public int run(String[] args) throws Exception
 	{
 
-		Job job = new Job(getConf(), "WordCount");
-		job.setJarByClass(WordCount.class);
+		Job job = new Job(getConf(), "WordCountD");
+		job.setJarByClass(WordCountD.class);
 
 		job.setMapperClass(WordCountMapper.class);
 		job.setReducerClass(WordCountReducer.class);
@@ -91,7 +93,7 @@ public class WordCount extends Configured implements Tool
 		FileInputFormat.addInputPath(job, new Path(args[0]));
 		FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
-		job.setNumReduceTasks(2);
+		//job.setNumReduceTasks(2);
 
 		return job.waitForCompletion(true) ? 0 : 1;
 	}

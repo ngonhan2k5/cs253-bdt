@@ -17,7 +17,10 @@ import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
-public class WordCount extends Configured implements Tool
+import org.apache.commons.lang.StringUtils;
+
+
+public class WordCountC extends Configured implements Tool
 {
 
 	public static class WordCountMapper extends Mapper<LongWritable, Text, Text, IntWritable>
@@ -31,8 +34,10 @@ public class WordCount extends Configured implements Tool
 		{
 			for (String token : value.toString().split("\\s+"))
 			{
-				word.set(token);
-				context.write(word, one);
+				if (StringUtils.equalsIgnoreCase(token, "hadoop") || StringUtils.equalsIgnoreCase(token, "java")) {
+					word.set(token);
+					context.write(word, one);
+				}
 			}
 		}
 	}
@@ -44,6 +49,7 @@ public class WordCount extends Configured implements Tool
 		@Override
 		public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException
 		{
+
 			int sum = 0;
 			for (IntWritable val : values)
 			{
@@ -59,7 +65,7 @@ public class WordCount extends Configured implements Tool
 		Configuration conf = new Configuration();
 		delOutDir(conf, args[1]);
 
-		int res = ToolRunner.run(conf, new WordCount(), args);
+		int res = ToolRunner.run(conf, new WordCountC(), args);
 
 		System.exit(res);
 	}
@@ -76,8 +82,8 @@ public class WordCount extends Configured implements Tool
 	public int run(String[] args) throws Exception
 	{
 
-		Job job = new Job(getConf(), "WordCount");
-		job.setJarByClass(WordCount.class);
+		Job job = new Job(getConf(), "WordCountC");
+		job.setJarByClass(WordCountC.class);
 
 		job.setMapperClass(WordCountMapper.class);
 		job.setReducerClass(WordCountReducer.class);
@@ -90,8 +96,6 @@ public class WordCount extends Configured implements Tool
 
 		FileInputFormat.addInputPath(job, new Path(args[0]));
 		FileOutputFormat.setOutputPath(job, new Path(args[1]));
-
-		job.setNumReduceTasks(2);
 
 		return job.waitForCompletion(true) ? 0 : 1;
 	}

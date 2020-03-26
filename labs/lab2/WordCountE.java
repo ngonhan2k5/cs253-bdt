@@ -17,7 +17,7 @@ import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
-public class WordCount extends Configured implements Tool
+public class WordCountE extends Configured implements Tool
 {
 
 	public static class WordCountMapper extends Mapper<LongWritable, Text, Text, IntWritable>
@@ -40,17 +40,28 @@ public class WordCount extends Configured implements Tool
 	public static class WordCountReducer extends Reducer<Text, IntWritable, Text, IntWritable>
 	{
 		private IntWritable result = new IntWritable();
+		private int distinctCount = 0;
 
 		@Override
 		public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException
 		{
-			int sum = 0;
+			distinctCount++;
+			/*int sum = 0;
 			for (IntWritable val : values)
 			{
 				sum += val.get();
 			}
-			result.set(sum);
-			context.write(key, result);
+			if(sum >= 25) {
+				result.set(sum);
+				context.write(key, result);
+			}
+			*/
+			//context.write(new Text("numberofdistinctword"), new IntWritable(distinctCount));
+		}
+
+		public void cleanup(Context context) throws IOException,                     InterruptedException
+		{
+			context.write(new Text("numberofdistinctword"), new IntWritable(distinctCount));				
 		}
 	}
 
@@ -59,7 +70,7 @@ public class WordCount extends Configured implements Tool
 		Configuration conf = new Configuration();
 		delOutDir(conf, args[1]);
 
-		int res = ToolRunner.run(conf, new WordCount(), args);
+		int res = ToolRunner.run(conf, new WordCountE(), args);
 
 		System.exit(res);
 	}
@@ -76,8 +87,8 @@ public class WordCount extends Configured implements Tool
 	public int run(String[] args) throws Exception
 	{
 
-		Job job = new Job(getConf(), "WordCount");
-		job.setJarByClass(WordCount.class);
+		Job job = new Job(getConf(), "WordCountE");
+		job.setJarByClass(WordCountE.class);
 
 		job.setMapperClass(WordCountMapper.class);
 		job.setReducerClass(WordCountReducer.class);
@@ -91,7 +102,7 @@ public class WordCount extends Configured implements Tool
 		FileInputFormat.addInputPath(job, new Path(args[0]));
 		FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
-		job.setNumReduceTasks(2);
+		//job.setNumReduceTasks(2);
 
 		return job.waitForCompletion(true) ? 0 : 1;
 	}

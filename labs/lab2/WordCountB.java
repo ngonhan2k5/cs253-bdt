@@ -17,7 +17,7 @@ import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
-public class WordCount extends Configured implements Tool
+public class WordCountB extends Configured implements Tool
 {
 
 	public static class WordCountMapper extends Mapper<LongWritable, Text, Text, IntWritable>
@@ -59,7 +59,7 @@ public class WordCount extends Configured implements Tool
 		Configuration conf = new Configuration();
 		delOutDir(conf, args[1]);
 
-		int res = ToolRunner.run(conf, new WordCount(), args);
+		int res = ToolRunner.run(conf, new WordCountB(), args);
 
 		System.exit(res);
 	}
@@ -76,8 +76,8 @@ public class WordCount extends Configured implements Tool
 	public int run(String[] args) throws Exception
 	{
 
-		Job job = new Job(getConf(), "WordCount");
-		job.setJarByClass(WordCount.class);
+		Job job = new Job(getConf(), "WordCountB");
+		job.setJarByClass(WordCountB.class);
 
 		job.setMapperClass(WordCountMapper.class);
 		job.setReducerClass(WordCountReducer.class);
