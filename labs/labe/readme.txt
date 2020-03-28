@@ -1,10 +1,18 @@
-hadoop jar lab3.jar lab3.AvgTemp1 input output_1
-hadoop jar lab3.jar lab3.AvgTemp2 input output_2
-hadoop jar lab3.jar lab3.AvgTemp3 input output_3
-hadoop jar lab3.jar lab3.AvgTemp4 input output_4
-hadoop jar lab3.jar lab3.AvgTemp5 input output_5
+# run E1
+hadoop jar labe.jar labe.AvgTempE input output_E
 
+#show result
+hadoop fs -ls /user/root/output_E
+hadoop fs -cat /user/root/output_E/part-r-00000
 
+# run E2
+hadoop jar labe.jar labe.AvgTempE2 input output_E2
 
-#./compile.sh 5;  ./createjar.sh; ./hadooprun.sh 5
+#result
+hadoop fs -ls /user/root/output_E2
+hadoop fs -cat /user/root/output_E2/StationTempRecord
+
+#rebuild jar
+sh rebuild-all.sh
+
 
