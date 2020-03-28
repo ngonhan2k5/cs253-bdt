@@ -79,7 +79,7 @@ public class AvgTemp4 extends Configured implements Tool
 		protected void cleanup(Mapper<LongWritable, Text, RText, Pair>.Context context)
 				throws IOException, InterruptedException {
 					
-				for(Map.Entry entry: map.entrySet()){
+				for(Map.Entry<String, Pair> entry: map.entrySet()){
 					
 					key.set(entry.getKey().toString());
 					context.write(key, (Pair)entry.getValue());
