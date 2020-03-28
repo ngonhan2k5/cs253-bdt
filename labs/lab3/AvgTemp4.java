@@ -1,12 +1,15 @@
 package lab3;
 
-
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.io.FloatWritable; 
+import org.apache.hadoop.io.BinaryComparable;
+import org.apache.hadoop.io.FloatWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
@@ -19,27 +22,51 @@ import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
-public class AvgTemp2 extends Configured implements Tool
+public class AvgTemp4 extends Configured implements Tool
 {
+	
+	final static class RText extends Text {
+		@Override
+		public int compareTo(BinaryComparable other) {
+			return super.compareTo(other)*-1;
+		}
+	}
 
-	public static class ATMapper extends Mapper<LongWritable, Text, Text, Pair>
+
+	public static class ATMapper extends Mapper<LongWritable, Text, RText, Pair>
 	{
 
 		// private final static IntWritable value = new IntWritable(1);
-		private Text key = new Text();
-		private Pair pair = new Pair();
+		private RText key = new RText();
+		private HashMap<String, Pair> map;
+
+		@Override
+		protected void setup(Mapper<LongWritable, Text, RText, Pair>.Context context)
+				throws IOException, InterruptedException {
+
+			map = new HashMap<>();
+		}
 
 		@Override
 		public void map(LongWritable offset, Text row, Context context) throws IOException, InterruptedException
 		{
+			Pair pair;
 			try{ 
 				String year = row.toString().substring(15,19); //get year
 				String temp = row.toString().substring(87,92); //get temp*10
 
-				key.set(year);
-				pair.set(Integer.parseInt(temp), 1);
+				
+				// Pair2 p = new Pair2(Integer.parseInt(temp), 1);
+				int iTemp = Integer.parseInt(temp);
+				if (map.containsKey(year)){
+					pair = map.get(year);
+					pair.set(pair.getSum()+iTemp, pair.getCount() + 1);
+					
+				}else{
+					pair = new Pair(iTemp, 1);
+				}
+				map.put(year, pair);
 
-				context.write(key, pair);
 			}catch(IndexOutOfBoundsException e){
 				System.out.println(row.toString());
 			}catch(NumberFormatException e){
@@ -47,31 +74,21 @@ public class AvgTemp2 extends Configured implements Tool
 			}
 			
 		}
-	}
-
-	public static class ATCombiner extends Reducer<Text, Pair, Text, Pair>
-	{
-		private Pair result = new Pair();
 
 		@Override
-		public void reduce(Text key, Iterable<Pair> values, Context context) throws IOException, InterruptedException
-		{
-			int sum = 0, count = 0;
-			for (Pair val : values) {
-                sum += val.getSum();
-                count += val.getCount();
-            }
-            
-            if (count>0){
-                result.set(sum, count);
-                context.write(key, result);
-            }
+		protected void cleanup(Mapper<LongWritable, Text, RText, Pair>.Context context)
+				throws IOException, InterruptedException {
+					
+				for(Map.Entry entry: map.entrySet()){
+					
+					key.set(entry.getKey().toString());
+					context.write(key, (Pair)entry.getValue());
+				};
 		}
 	}
 
 	public static class ATReducer extends Reducer<Text, Pair, Text, FloatWritable>
 	{
-		
 		private FloatWritable result = new FloatWritable();
 
 		@Override
@@ -96,7 +113,7 @@ public class AvgTemp2 extends Configured implements Tool
 		Configuration conf = new Configuration();
 		delOutDir(conf, args[1]);
 
-		int res = ToolRunner.run(conf, new AvgTemp2(), args);
+		int res = ToolRunner.run(conf, new AvgTemp4(), args);
 
 		System.exit(res);
 	}
@@ -113,14 +130,13 @@ public class AvgTemp2 extends Configured implements Tool
 	public int run(String[] args) throws Exception
 	{
 
-		Job job = new Job(getConf(), "AvgTemp2");
-		job.setJarByClass(AvgTemp2.class);
+		Job job = new Job(getConf(), "AvgTemp4");
+		job.setJarByClass(AvgTemp4.class);
 
 		job.setMapperClass(ATMapper.class);
-		job.setCombinerClass(ATCombiner.class);
 		job.setReducerClass(ATReducer.class);
 
-		job.setOutputKeyClass(Text.class);
+		job.setOutputKeyClass(RText.class);
 		job.setOutputValueClass(Pair.class);
 
 		job.setInputFormatClass(TextInputFormat.class);
