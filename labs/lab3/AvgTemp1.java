@@ -1,9 +1,11 @@
-import java.io.IOException;
+package lab3;
 
+import java.io.IOException;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.io.FloatWritable;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
@@ -17,40 +19,48 @@ import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
-public class WordCountB extends Configured implements Tool
+public class AvgTemp1 extends Configured implements Tool
 {
 
-	public static class WordCountMapper extends Mapper<LongWritable, Text, Text, IntWritable>
+	public static class ATMapper extends Mapper<LongWritable, Text, Text, IntWritable>
 	{
 
-		private final static IntWritable one = new IntWritable(1);
-		private Text word = new Text();
+		private final static IntWritable value = new IntWritable(1);
+		private Text key = new Text();
 
 		@Override
-		public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException
+		public void map(LongWritable offset, Text row, Context context) throws IOException, InterruptedException
 		{
-			for (String token : value.toString().split("\\s+"))
-			{
-				word.set(token);
-				context.write(word, one);
+			try{
+				String date = row.toString().substring(15,19); //get year
+				String temp = row.toString().substring(87,92); //get temp*10
+				key.set(date);
+				value.set(Integer.parseInt(temp));
+				context.write(key, value);
+			}catch(IndexOutOfBoundsException e){
+				System.out.println(row.toString());
 			}
 		}
 	}
 
-	public static class WordCountReducer extends Reducer<Text, IntWritable, Text, IntWritable>
+	public static class ATReducer extends Reducer<Text, IntWritable, Text, FloatWritable>
 	{
-		private IntWritable result = new IntWritable();
+		private FloatWritable result = new FloatWritable();
 
 		@Override
 		public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException
 		{
-			int sum = 0;
+			int sum = 0, count = 0;
 			for (IntWritable val : values)
 			{
-				sum += val.get();
-			}
-			result.set(sum);
-			context.write(key, result);
+                sum += val.get();
+                count++;
+            }
+            
+            if (count>0){
+                result.set(sum/count);
+                context.write(key, result);
+            }
 		}
 	}
 
@@ -59,7 +69,7 @@ public class WordCountB extends Configured implements Tool
 		Configuration conf = new Configuration();
 		delOutDir(conf, args[1]);
 
-		int res = ToolRunner.run(conf, new WordCountB(), args);
+		int res = ToolRunner.run(conf, new AvgTemp1(), args);
 
 		System.exit(res);
 	}
@@ -76,11 +86,11 @@ public class WordCountB extends Configured implements Tool
 	public int run(String[] args) throws Exception
 	{
 
-		Job job = new Job(getConf(), "WordCountB");
-		job.setJarByClass(WordCountB.class);
+		Job job = new Job(getConf(), "AvgTemp");
+		job.setJarByClass(AvgTemp1.class);
 
-		job.setMapperClass(WordCountMapper.class);
-		job.setReducerClass(WordCountReducer.class);
+		job.setMapperClass(ATMapper.class);
+		job.setReducerClass(ATReducer.class);
 
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(IntWritable.class);
@@ -91,7 +101,6 @@ public class WordCountB extends Configured implements Tool
 		FileInputFormat.addInputPath(job, new Path(args[0]));
 		FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
-		job.setNumReduceTasks(2);
 
 		return job.waitForCompletion(true) ? 0 : 1;
 	}
