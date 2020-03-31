@@ -1,12 +1,14 @@
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapred.FileAlreadyExistsException;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
@@ -29,47 +31,59 @@ public class WordCount extends Configured implements Tool
 		@Override
 		public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException
 		{
-			for (String token : value.toString().split("\\s+"))
+			for (String token : value.toString().toLowerCase().split("\\s+"))
 			{
 				word.set(token);
 				context.write(word, one);
 			}
 		}
+		
+		
 	}
 
 	public static class WordCountReducer extends Reducer<Text, IntWritable, Text, IntWritable>
 	{
 		private IntWritable result = new IntWritable();
-
 		@Override
 		public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException
 		{
 			int sum = 0;
-			for (IntWritable val : values)
-			{
+			for (IntWritable val : values) {
 				sum += val.get();
 			}
 			result.set(sum);
 			context.write(key, result);
-		}
-	}
-
+			
+		}	
+		
+	}	
+	
 	public static void main(String[] args) throws Exception
 	{
 		Configuration conf = new Configuration();
-		delOutDir(conf, args[1]);
-
-		int res = ToolRunner.run(conf, new WordCount(), args);
-
-		System.exit(res);
-	}
-	
-	private static void delOutDir(Configuration conf, String path) throws IOException {
-                // Remove output folder
-                Path outdir = new Path(path);
-                FileSystem fs = outdir.getFileSystem(conf);
-                fs.delete(outdir, true);
-
+		int res = 0;
+		try {
+				res = ToolRunner.run(conf, new WordCount(), args);}
+				
+		catch (FileAlreadyExistsException existError) {
+			String s;
+	        Process p;
+	        try {
+		            p = Runtime.getRuntime().exec("hadoop fs -rm -r -f " + args[1] );
+		            BufferedReader br = new BufferedReader(
+		                new InputStreamReader(p.getInputStream()));
+		            while ((s = br.readLine()) != null)
+		                System.out.println("line: " + s);
+		            p.waitFor();
+		            System.out.println ("exit: " + p.exitValue());
+		            p.destroy();
+	        } catch (Exception e) {}
+		}
+		
+		finally{
+			res = ToolRunner.run(conf, new WordCount(), args);
+			System.exit(res);
+		}
 	}
 
 	@Override
@@ -79,18 +93,17 @@ public class WordCount extends Configured implements Tool
 		Job job = new Job(getConf(), "WordCount");
 		job.setJarByClass(WordCount.class);
 
+		FileInputFormat.addInputPath(job, new Path(args[0]));
+		FileOutputFormat.setOutputPath(job, new Path(args[1]));
+		
 		job.setMapperClass(WordCountMapper.class);
 		job.setReducerClass(WordCountReducer.class);
-
+		
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(IntWritable.class);
 
 		job.setInputFormatClass(TextInputFormat.class);
 		job.setOutputFormatClass(TextOutputFormat.class);
-
-		FileInputFormat.addInputPath(job, new Path(args[0]));
-		FileOutputFormat.setOutputPath(job, new Path(args[1]));
-
 
 		return job.waitForCompletion(true) ? 0 : 1;
 	}
