@@ -37,6 +37,7 @@ public class AvroMaxStationTempYear extends Configured implements Tool
 		private final NcdcLineReaderUtils utils = new NcdcLineReaderUtils();
 		private final GenericRecord record = new GenericData.Record(SCHEMA);
 		AvroKey<GenericRecord> avroKey = new AvroKey<>(record);
+		FloatWritable temp = new FloatWritable();
 
 		@Override
 		protected void map(final LongWritable key, final Text value, final Context context)
@@ -49,7 +50,8 @@ public class AvroMaxStationTempYear extends Configured implements Tool
 				record.put("maxtemp", utils.getAirTemperature());
 
 				avroKey.datum(record);
-				context.write(avroKey, new FloatWritable(utils.getAirTemperature()));
+				temp.set(utils.getAirTemperature());
+				context.write(avroKey, temp);
 			}
 		}
 	}
