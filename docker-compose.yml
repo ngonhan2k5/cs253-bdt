@@ -4,6 +4,10 @@ services:
         image: cloudera/quickstart
         ports:
             - 80:80
+            - 7180:7180
+            - 7187:7187
+            - 8088:8088
+            - 8888:8888
         command: /usr/bin/docker-quickstart
         privileged: true
         stdin_open: true

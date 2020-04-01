@@ -7,7 +7,7 @@ classpath=/usr/java/jdk1.7.0_67-cloudera/jre/lib/*:/usr/java/jdk1.7.0_67-clouder
 
 if [ "$1" == "1" ]; then
 	echo "lab4.WordCount.$main WordCount/input output"
-	java -classpath $classpath:lab4.jar lab4.WordCount.$main WordCount/input_1 output_1 aaa
+	java -classpath $classpath:lab4.jar lab4.WordCount.$main WordCount/input_1 output_1
 else
 	if [ "$1" == "2" ]; then
 		main=AvroGenericStationTempYear
