@@ -26,4 +26,4 @@ target
 output*
 bin
 
-ext*
+ext/lib*

@@ -13,6 +13,6 @@ CP=$CP:$jarfile:.
 
 echo $CP
 
-java -classpath $CP lab9.SparkWordCountjdk7 $1
+java -classpath $CP lab9.SparkWordCountjdk7 $1 $2
 
 #C:\Users\USER\.vscode\extensions\vscjava.vscode-java-debug-0.25.1\scripts\launcher.bat "C:\Program Files\Java\jdk1.8.0_191\bin\java.exe" -Dfile.encoding=UTF-8 -cp C:\Users\USER\AppData\Local\Temp\cp_487krlwwthmgdi3k8pvr1tbb3.jar lab9.SparkWordCountjdk7 input\input.txt output
