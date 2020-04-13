@@ -8,7 +8,7 @@ services:
             - 7187:7187
             - 8088:8088
             - 8888:8888
-            - 11:11
+            - 9092:9092
         command: /usr/bin/docker-quickstart & /bin/bash -l
         stdin_open: true
         tty: true
@@ -19,5 +19,6 @@ services:
         volumes:
             - ./labs:/root/labs
             - ./ext:/ext
+            - ./proj:/root/proj
         env_file:
             - env.env
