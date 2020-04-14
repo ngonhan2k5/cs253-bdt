@@ -1,8 +1,15 @@
 #!/bin/bash
 
+BASE=~/cloudera/proj
+cd $BASE/kafka
 
 # . /etc/profile
-CSV_FOLDER=~/COVID-19/csse_covid_19_data/csse_covid_19_daily_reports
+
+#CSV_FOLDER=~/COVID-19/csse_covid_19_data/csse_covid_19_daily_reports
+CSV_FOLDER=~/cloudera/proj/data/csse_covid_19_daily_reports/
+
+echo "Read CSV file in forder: $CSV_FOLDER"
+
 SLEEP=2s
 if [ $# -eq 1 ]; then
     SLEEP=$1

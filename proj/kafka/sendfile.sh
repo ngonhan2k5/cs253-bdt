@@ -8,7 +8,8 @@ if [ $# -eq 3 ]; then
     sleep $3
     if [ -f $2 ]; then
         # cat "$CSV_FOLDER/$1" | python3 pycode/sendstdin.py
-        cat "$2" | python3 pycode/sendkafka.py
+        
+        sed '1s/^\xEF\xBB\xBF//' "$2" | python3 pycode/sendkafka.py
     else
         echo "$2 not exits"
         # ls $CSV_FOLDER
@@ -16,7 +17,7 @@ if [ $# -eq 3 ]; then
 else
     if [ -f $CSV_FOLDER/$1 ]; then
         # cat "$CSV_FOLDER/$1" | python3 pycode/sendstdin.py
-        cat "$CSV_FOLDER/$1" | python3 pycode/sendkafka.py
+        sed '1s/^\xEF\xBB\xBF//' "$CSV_FOLDER/$1" | python3 pycode/sendkafka.py
     else
         echo "$CSV_FOLDER/$1 not exits."
         ls $CSV_FOLDER

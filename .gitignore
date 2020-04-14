@@ -27,3 +27,6 @@ output*
 bin
 
 ext/lib*
+pid
+*.tgz
+cs523
