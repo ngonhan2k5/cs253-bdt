@@ -66,43 +66,42 @@ def debug(col):
 
 
 plt.style.use('fivethirtyeight')
-plt.legend(loc='upper left')
+# plt.legend(loc='upper left')
 
-fig, ax = plt.subplots()
+# fig, ax = plt.subplots()
 
-# def animate(i):
-# try:
-df = pd.DataFrame(table.scan(), columns=['date','countries'])
-df2 = pd.concat(
-    [
-        df.drop(['countries'], axis=1),
-        df.countries.apply(pd.Series)
-    ], axis=1)
+def animate(i):
+    try:
+        df = pd.DataFrame(table.scan(), columns=['date','countries'])
+        df2 = pd.concat(
+            [
+                df.drop(['countries'], axis=1),
+                df.countries.apply(pd.Series)
+            ], axis=1)
 
-plt.cla()
+        plt.cla()
 
-dates = pd.to_datetime(df2['date'].str.decode("utf-8"))
-# debug(dates)
-# ax.plot(dates, range(0,1000))
-# return 
-for (index, row) in metas.iterrows():
-    colName = row['col']
-    # print(row['col'], row['id'])
+        dates = pd.to_datetime(df2['date'].str.decode("utf-8"))
+        # debug(dates)
+        # ax.plot(dates, range(0,1000))
+        # return 
+        for (index, row) in metas.iterrows():
+            colName = row['col']
+            # print(row['col'], row['id'])
 
-    if colName in df2:
-        print(colName)
-        cases = df2[colName].str.decode("utf-8").fillna("0").apply(lambda x: int(x))
-        # debug(cases)
-        ax.plot(dates, cases , label=row['title'] )
-        # row['title']
-    
-    # break
-    
-    
-
-    # plt.tight_layout()
-    # except:
-        # print("An exception occurred")
+            if colName in df2:
+                print(colName)
+                cases = df2[colName].str.decode("utf-8").fillna("0").apply(lambda x: int(x))
+                # debug(cases)
+                plt.plot(dates, cases , label=row['title'] )
+                # row['title']
+            
+            # break
+        
+        plt.legend(loc='upper left')
+        plt.tight_layout()
+    except:
+        print("An exception occurred")
 
   # x_vals.append(next(index))
   # y_vals.append(random.randint(0,5))
@@ -112,10 +111,10 @@ for (index, row) in metas.iterrows():
 # plt.tight_layout()
 
 
-# ani = FuncAnimation(plt.gcf(), animate, interval=1000)
+ani = FuncAnimation(plt.gcf(), animate, interval=1000)
 # animate(1)
 
 
-plt.legend(loc='upper left')
+
 plt.tight_layout()
 plt.show()
