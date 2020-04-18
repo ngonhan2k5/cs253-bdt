@@ -1,6 +1,6 @@
 # ✴Tip to install Cloudera and Google Cloud (A replacement of VM images)
 
-🌟Install docker and cloudera quickstart on Ubuntu
+🌟Install docker and cloudera quickstart on Ubuntu <a name="headin"></a>
 
 This is work for ubuntu 16.04 and 18.04 LTS, if you didn't have ubuntu, try to get free account on G cloud and follow the 🌟Create instance on google cloud (Image Tuts) in Wiki
 sudo -i
@@ -13,9 +13,9 @@ apt-get install docker-compose
 ./start
 ## now you can use browser to access http://"External Ip" depending on where your Ubuntu node hosted
 
-Notes: 
+## Notes: 
 * If you want to get use of Cloudera Manager, you must run /home/cloudera/cloudera-manager after the docker first started and do a instance down and start again.
-* If you want to update spark2 java8 and kafka pls download and put /kafka /spark /java1.8xx in /ext/lib (see volumes in docker-compose.yml) and you may need to change /cloudera/profile file to match foldername
+* If you want to update spark2 java8 and kafka pls download and put /kafka /spark /jdk1.8.0_202 in /ext/lib (see volumes in docker-compose.yml) and you may need to change /cloudera/profile file to match these foldername
 
 
 🌟Create instance on google cloud (Image Tuts)
@@ -26,7 +26,7 @@ Notes:
 ![Image](docs/img/step5.PNG?raw=true)
 ![Image](docs/img/step6.PNG?raw=true)
 
-Tips: You can paste command. Now you can install docker and cloudera follow 🌟Install docker and cloudera on Ubuntu in Wiki
+Tips: You can paste command. Now you can install docker and cloudera follow [🌟Install docker and cloudera on Ubuntu](#headin)
 
 🌟Set static IP for instance
 
