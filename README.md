@@ -4,15 +4,20 @@
 
 This is work for ubuntu 16.04 and 18.04 LTS, if you didn't have ubuntu, try to get free account on G cloud and follow the [🌟Create instance on google cloud (Image Tuts)](#headin2)
 
-sudo -i
-### if this is the first time run, we need an update apt package meta
-apt update
-### install docker and docker-composer
-apt-get install docker.io
-apt-get install docker-compose
-### buid and start docker
-./start
-### now you can use browser to access http://"External Ip" depending on where your Ubuntu node hosted
+* run as sudo
+
+      sudo -i
+* if this is the first time run, we need an update apt package meta
+
+      apt update
+* install docker and docker-composer
+    
+      apt-get install docker.io
+      apt-get install docker-compose
+* buid and start docker
+    
+      ./start
+* now you can use browser to access http://"External Ip" depending on where your Ubuntu node hosted
 
 ## Notes: 
 * If you want to get use of Cloudera Manager, you must run /home/cloudera/cloudera-manager after the docker first started and do a instance down and start again.
