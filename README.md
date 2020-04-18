@@ -38,18 +38,17 @@ Tips: You can paste command. Now you can install docker and cloudera follow [ðŸŒ
 
 When we stated up an instance it automatically allocate an dynamic IP, we can make it static
 ![Image](docs/img/step2.1.PNG?raw=true)
-<img src="docs/img/step2.1PNG?raw=true" width="60%">
+<img src="docs/img/step2.1.PNG?raw=true" width="60%">
 ![Image](docs/img/step2.3.PNG?raw=true)
   
 
 ## ðŸŒŸAdd firewall rules to open all related service
 
-Forget about security, just open all to get it simple at first!
-      
+* Forget about security, just open all to get it simple at first!
 <img src="docs/img/step3.1.PNG?raw=true" width="30%">
 
-Or
-      <img src="docs/img/step3.2.PNG?raw=true" width="60%">
+* Or
+<img src="docs/img/step3.2.PNG?raw=true" width="60%">
  
 Find the default rule for our created instance, do you remember "Allow HTTP trafic" of previous Tuts ? 
 ![Image](docs/img/step3.3.PNG?raw=true)
