@@ -15,7 +15,7 @@ apt-get install docker-compose
 
 Notes: 
 * If you want to get use of Cloudera Manager, you must run /home/cloudera/cloudera-manager after the docker first started and do a instance down and start again.
-* If you want to update spark2 java8 and kafka pls down load and put /kafka /spark /java1.8xx in /ext/lib (see volumes in docker-compose.yml)
+* If you want to update spark2 java8 and kafka pls download and put /kafka /spark /java1.8xx in /ext/lib (see volumes in docker-compose.yml) and you may need to change /cloudera/profile file to match foldername
 
 
 🌟Create instance on google cloud (Image Tuts)
