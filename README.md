@@ -2,7 +2,7 @@
 
 🌟Install docker and cloudera quickstart on Ubuntu <a name="headin"></a>
 
-This is work for ubuntu 16.04 and 18.04 LTS, if you didn't have ubuntu, try to get free account on G cloud and follow the 🌟Create instance on google cloud (Image Tuts) in Wiki
+This is work for ubuntu 16.04 and 18.04 LTS, if you didn't have ubuntu, try to get free account on G cloud and follow the [🌟Create instance on google cloud (Image Tuts)](#headin2)
 sudo -i
 ## if this is the first time run, we need an update apt package meta
 apt update
@@ -18,7 +18,7 @@ apt-get install docker-compose
 * If you want to update spark2 java8 and kafka pls download and put /kafka /spark /jdk1.8.0_202 in /ext/lib (see volumes in docker-compose.yml) and you may need to change /cloudera/profile file to match these foldername
 
 
-🌟Create instance on google cloud (Image Tuts)
+🌟Create instance on google cloud (Image Tuts) <a name="headin2"></a>
 
 ![Image](docs/img/step1.PNG?raw=true)
 ![Image](docs/img/step2.PNG?raw=true)
