@@ -30,7 +30,7 @@ This is work for ubuntu 16.04 and 18.04 LTS, if you didn't have ubuntu, try to g
 ![Image](docs/img/step2.PNG?raw=true)
 ![Image](docs/img/step4.PNG?raw=true)
 ![Image](docs/img/step5.PNG?raw=true)
-![Image](docs/img/step6.PNG?raw=true)
+![Image](docs/img/stop6.PNG?raw=true)
 
 Tips: You can paste command. Now you can install docker and cloudera follow [🌟Install docker and cloudera on Ubuntu](#headin)
 
@@ -46,8 +46,9 @@ When we stated up an instance it automatically allocate an dynamic IP, we can ma
 
 Forget about security, just open all to get it simple at first!
 ![Image](docs/img/step3.1.PNG?raw=true)
+
 Or
-![Image](docs/img/step3.2.PNG?raw=true)
+![Image](docs/img/step3.2.PNG?raw=true =250x)
  
 Find the default rule for our created instance, do you remember "Allow HTTP trafic" of previous Tuts ? 
 ![Image](docs/img/step3.3.PNG?raw=true)
