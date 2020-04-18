@@ -26,9 +26,9 @@ This is work for ubuntu 16.04 and 18.04 LTS, if you didn't have ubuntu, try to g
 
 ## 🌟Create instance on google cloud (Image Tuts) <a name="headin2"></a>
 
-![Image](docs/img/step1.PNG?raw=true)
+<img src="docs/img/step1.PNG?raw=true" width="60%">
 ![Image](docs/img/step2.PNG?raw=true)
-![Image](docs/img/step4.PNG?raw=true)
+<img src="docs/img/step4.PNG?raw=true" width="60%">
 ![Image](docs/img/step5.PNG?raw=true)
 ![Image](docs/img/stop6.PNG?raw=true)
 
