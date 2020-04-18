@@ -45,10 +45,10 @@ When we stated up an instance it automatically allocate an dynamic IP, we can ma
 ## 🌟Add firewall rules to open all related service
 
 Forget about security, just open all to get it simple at first!
-![Image](docs/img/step3.1.PNG?raw=true)
+      ![Image](docs/img/step3.1.PNG?raw=true)
 
 Or
-![Image](docs/img/step3.2.PNG?raw=true =250x)
+      <img src="docs/img/step3.2.PNG?raw=true" width="60%">
  
 Find the default rule for our created instance, do you remember "Allow HTTP trafic" of previous Tuts ? 
 ![Image](docs/img/step3.3.PNG?raw=true)
