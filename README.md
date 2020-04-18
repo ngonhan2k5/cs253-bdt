@@ -48,5 +48,5 @@ Find the default rule for our created instance, do you remember "Allow HTTP traf
 ![Image](docs/img/step3.4.PNG?raw=true)
 ![Image](docs/img/step3.5.PNG?raw=true)
 
-Notes: to avoid datamining aim to docker manager port you should open only needed ports, do not open 2375 and 2376
+Notes: to avoid datamining trojan aim to docker manager port you should open only needed ports, do not open 2375 and 2376
 
