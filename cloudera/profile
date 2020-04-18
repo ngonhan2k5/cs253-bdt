@@ -83,6 +83,8 @@ export M2_HOME=/usr/local/apache-maven/apache-maven-3.0.4
 
 export KAFKA_HOME=/ext/lib/kafka
 export SPARK_HOME=/ext/lib/spark
+export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
+export YARN_CONF_DIR=$HADOOP_HOME/etc/hadoop
 
 export PATH=$KAFKA_HOME/bin:$SPARK_HOME/bin:/usr/local/firefox:/sbin:$JAVA_HOME/bin:$ANT_HOME/bin:$M2_HOME/bin:$PATH
 
