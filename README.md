@@ -6,16 +6,16 @@ This is work for ubuntu 16.04 and 18.04 LTS, if you didn't have ubuntu, try to g
 sudo -i
 ## if this is the first time run, we need an update apt package meta
 apt update
-## install docker
+## install docker and docker-composer
 apt-get install docker.io
-## get cloudera quickstart image
-docker pull cloudera/quickstart:latest
-## first time create and run docker instance
-docker run --hostname=quickstart.cloudera --privileged=true -t -i -p 7180:7180 -p 80:80 -p 8888:8888 -p 7187:7187 cloudera/quickstart /usr/bin/docker-quickstart
+apt-get install docker-compose
+## buid and start docker
+./start
 ## now you can use browser to access http://"External Ip" depending on where your Ubuntu node hosted
-New: you can install docker-compose and use this docker-compose.yml.
 
-Notes: If you want to get use of Cloudera Manager, you must run /home/cloudera/cloudera-manager after the docker first started and do a instance down and start again.
+Notes: 
+* If you want to get use of Cloudera Manager, you must run /home/cloudera/cloudera-manager after the docker first started and do a instance down and start again.
+* If you want to update spark2 java8 and kafka pls down load and put /kafka /spark /java1.8xx in /ext/lib (see volumes in docker-compose.yml)
 
 
 🌟Create instance on google cloud (Image Tuts)
