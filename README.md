@@ -3,6 +3,7 @@
 🌟Install docker and cloudera quickstart on Ubuntu <a name="headin"></a>
 
 This is work for ubuntu 16.04 and 18.04 LTS, if you didn't have ubuntu, try to get free account on G cloud and follow the [🌟Create instance on google cloud (Image Tuts)](#headin2)
+
 sudo -i
 ## if this is the first time run, we need an update apt package meta
 apt update
