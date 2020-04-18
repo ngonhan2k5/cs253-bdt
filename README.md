@@ -20,32 +20,33 @@ Notes: If you want to get use of Cloudera Manager, you must run /home/cloudera/c
 
 🌟Create instance on google cloud (Image Tuts)
 
-
-
-
-
-
-​
-
+![Image](docs/img/step1.PNG?raw=true)
+![Image](docs/img/step2.PNG?raw=true)
+![Image](docs/img/step4.PNG?raw=true)
+![Image](docs/img/step5.PNG?raw=true)
+![Image](docs/img/step6.PNG?raw=true)
 
 Tips: You can paste command. Now you can install docker and cloudera follow 🌟Install docker and cloudera on Ubuntu in Wiki
 
 🌟Set static IP for instance
 
-  
 When we stated up an instance it automatically allocate an dynamic IP, we can make it static
-
- 
- 
+![Image](docs/img/step2.1.PNG?raw=true)
+![Image](docs/img/step2.2.PNG?raw=true)
+![Image](docs/img/step2.3.PNG?raw=true)
+  
 
 🌟Add firewall rules to open all related service
 
-  
 Forget about security, just open all to get it simple at first!
-
+![Image](docs/img/step3.1.PNG?raw=true)
 Or
-
+![Image](docs/img/step3.2.PNG?raw=true)
  
 Find the default rule for our created instance, do you remember "Allow HTTP trafic" of previous Tuts ? 
- 
+![Image](docs/img/step3.3.PNG?raw=true)
+![Image](docs/img/step3.4.PNG?raw=true)
+![Image](docs/img/step3.5.PNG?raw=true)
+
+Notes: to avoid datamining aim to docker manager port you should open only needed ports, do not open 2375 and 2376
 
