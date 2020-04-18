@@ -48,7 +48,7 @@ When we stated up an instance it automatically allocate an dynamic IP, we can ma
 <img src="docs/img/step3.1.PNG?raw=true" width="30%">
 
 * Or
-<img src="docs/img/step3.2.PNG?raw=true" width="60%">
+<img src="docs/img/step3.2.PNG?raw=true" width="40%">
  
 Find the default rule for our created instance, do you remember "Allow HTTP trafic" of previous Tuts ? 
 ![Image](docs/img/step3.3.PNG?raw=true)
