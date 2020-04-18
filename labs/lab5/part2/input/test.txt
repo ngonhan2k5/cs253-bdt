@@ -1,6 +1,0 @@
-Blocks abstraction concept, replications,
-replica placement policy
-O Re-replication need
-O HDFS Daemons and their workings
-O Possible failure scenarios in Hadoop Cluster
-O Pros and cons of HDFS
